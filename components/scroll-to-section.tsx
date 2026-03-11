@@ -10,8 +10,9 @@ export function useScrollSpy() {
     const handleScroll = () => {
       let current = ""
       sections.forEach((section) => {
-        const sectionTop = section.offsetTop
-        const sectionHeight = section.clientHeight
+        const htmlSection = section as HTMLElement
+        const sectionTop = htmlSection.offsetTop
+        const sectionHeight = htmlSection.clientHeight
         if (window.scrollY >= sectionTop - 100) {
           current = section.getAttribute("id") || ""
         }
