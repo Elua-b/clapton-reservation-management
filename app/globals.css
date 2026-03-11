@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 45 40% 98%; /* cream beige */
+    --foreground: 120 15% 10%; /* dark forest/charcoal */
+    --card: 45 40% 98%;
+    --card-foreground: 120 15% 10%;
+    --popover: 45 40% 98%;
+    --popover-foreground: 120 15% 10%;
+    --primary: 115 8% 55%; /* sage green #849483 */
+    --primary-foreground: 45 40% 98%;
+    --secondary: 115 10% 64%; /* dusty sage #A3AD9B */
+    --secondary-foreground: 120 15% 10%;
+    --muted: 115 10% 85%;
+    --muted-foreground: 120 10% 40%;
+    --accent: 47 65% 52%; /* gold #D4AF37 */
+    --accent-foreground: 120 15% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 115 10% 80%;
+    --input: 115 10% 80%;
+    --ring: 115 8% 55%;
+    --radius: 0.25rem; /* sharper, more elegant radius */
+  }
+
+  .dark {
+    --background: 0 0% 4%; /* Almost black */
+    --foreground: 60 9.1% 97.8%;
+    --card: 0 0% 4%; /* Almost black */
+    --card-foreground: 60 9.1% 97.8%;
+    --popover: 0 0% 4%; /* Almost black */
+    --popover-foreground: 60 9.1% 97.8%;
+    --primary: 47 55% 52%; /* Gold color */
+    --primary-foreground: 24 9.8% 10%;
+    --secondary: 12 6.5% 15.1%;
+    --secondary-foreground: 60 9.1% 97.8%;
+    --muted: 12 6.5% 15.1%;
+    --muted-foreground: 24 5.4% 63.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 60 9.1% 97.8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 12 6.5% 15.1%;
+    --input: 12 6.5% 15.1%;
+    --ring: 47 55% 52%; /* Gold color */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.font-cormorant {
+  font-family: var(--font-cormorant);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 1s ease-out;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  aspect-ratio: 3 / 4;
+}
+
+.image-container img {
+  transition: transform 0.5s ease;
+}
+
+.image-container:hover img {
+  transform: scale(1.05);
+}
+
+/* Gold accent for special elements */
+.gold-accent {
+  color: #d4af37;
+}
+
+.gold-border {
+  border-color: #d4af37;
+}
+
+.gold-bg {
+  background-color: #d4af37;
+}
