@@ -86,7 +86,7 @@ export default function AdminDashboardPage() {
     return (
       reservation.name.toLowerCase().includes(searchLower) ||
       reservation.email.toLowerCase().includes(searchLower) ||
-      reservation.phone.includes(searchTerm)
+      (reservation.phone && reservation.phone.includes(searchTerm))
     )
   })
 
@@ -110,8 +110,8 @@ export default function AdminDashboardPage() {
       csvRows.push([
         r.name,
         r.email,
-        r.phone,
-        r.address,
+        r.phone || "",
+        r.address || "",
         r.attending ? "Attending" : "Not Attending",
         r.attending ? String(r.guests + 1) : "0",
         r.message || "",
@@ -425,11 +425,11 @@ export default function AdminDashboardPage() {
                 </div>
                 <div>
                   <h3 className="text-[10px] uppercase tracking-widest text-wedding-charcoal/40 mb-1">Phone</h3>
-                  <p className="font-light">{selectedReservation.phone}</p>
+                  <p className="font-light">{selectedReservation.phone || "N/A"}</p>
                 </div>
                 <div className="md:col-span-2">
                   <h3 className="text-[10px] uppercase tracking-widest text-wedding-charcoal/40 mb-1">Address</h3>
-                  <p className="font-light leading-relaxed">{selectedReservation.address}</p>
+                  <p className="font-light leading-relaxed">{selectedReservation.address || "N/A"}</p>
                 </div>
                 <div>
                   <h3 className="text-[10px] uppercase tracking-widest text-wedding-charcoal/40 mb-1">Guests</h3>
