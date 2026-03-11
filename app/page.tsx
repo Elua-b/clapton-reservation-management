@@ -340,7 +340,11 @@ export default function Home() {
               transition={{ delay: 0.2, duration: 0.8 }}
             >
               <p className="italic text-lg md:text-xl">
-                "Our journey began with nothing but faith. Jackline saw a vision in Clapton that the world hadn't noticed yet, standing by him through every early struggle."
+                Clapton and Jacky’s love story began in 2015. What started as a simple connection soon grew into a deep and beautiful love.
+
+In 2018, they sealed their commitment through a civil marriage, marking the beginning of a stronger journey together.
+
+Since then, their love has continued to grow deeper and stronger, proving that true love only gets better with time. ❤️
               </p>
               
               <motion.div 
@@ -359,7 +363,7 @@ export default function Home() {
               </motion.div>
  
               <p>
-                Hand in hand, we turned a simple promise into a beautiful life. Today, blessed with three wonderful children, we celebrate a love that only grows stronger with time. Welcome to a story of devotion, growth, and the beautiful reality we've built together.
+            Today they are  blessed with three wonderful children, They celebrate a love that only grows stronger with time. Welcome to a story of devotion, growth, and the beautiful reality they have built together.
               </p>
             </motion.div>
           </div>
