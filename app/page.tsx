@@ -173,7 +173,7 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
           >
-            Emmanuel & Jackline
+            Clapton & Jacky
           </motion.h1>
 
           <div className="w-24 h-px bg-white/50 mb-8"></div>
@@ -261,119 +261,47 @@ export default function Home() {
               We've prepared some special details to make our day even more memorable. From the ceremony to the celebration, here is what you can expect.
             </p>
           </div>
- 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 md:gap-y-16 gap-x-8 md:gap-x-12 px-6 md:px-0">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 px-6 md:px-0">
             {/* Introduction */}
             <motion.div
-              className="text-center space-y-4"
+              className="text-center space-y-3"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-6">
-                <Calendar className="w-8 h-8 text-wedding-sage/60" />
-              </div>
-              <h3 className="text-xl font-cormorant text-wedding-charcoal">Introduction</h3>
-              <p className="text-wedding-charcoal/60 text-sm leading-relaxed">
-                April 4, 2026 at 09:00 AM <br />
-                Rwempasha (Gasinga)
+              <Calendar className="w-10 h-10 text-wedding-sage/60 mx-auto mb-2" />
+              <h3 className="text-lg font-cormorant text-wedding-charcoal">Introduction</h3>
+              <p className="text-wedding-charcoal/60 text-xs">
+                09:00 AM <br /> Rwempasha(Gasinga)
               </p>
             </motion.div>
  
             {/* Wedding Ceremony */}
             <motion.div
-              className="text-center space-y-4"
+              className="text-center space-y-3"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-6">
-                <MapPin className="w-8 h-8 text-wedding-terracotta/60" />
-              </div>
-              <h3 className="text-xl font-cormorant text-wedding-charcoal">Wedding Ceremony</h3>
-              <p className="text-wedding-charcoal/60 text-sm leading-relaxed">
-                April 4, 2026 at 02:00 PM <br />
-                Gasinga Miracle Center
+              <MapPin className="w-10 h-10 text-wedding-terracotta/60 mx-auto mb-2" />
+              <h3 className="text-lg font-cormorant text-wedding-charcoal">Religious</h3>
+              <p className="text-wedding-charcoal/60 text-xs"> 02:00 PM <br /> Miracle Center
               </p>
             </motion.div>
  
             {/* Celebration */}
             <motion.div
-              className="text-center space-y-4"
+              className="text-center space-y-3"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-6">
-                <Heart className="w-8 h-8 text-wedding-terracotta/60" />
-              </div>
-              <h3 className="text-xl font-cormorant text-wedding-charcoal">Celebration</h3>
-              <p className="text-wedding-charcoal/60 text-sm leading-relaxed">
-                 Dinner & Dancing <br />
-                 Join us as we celebrate!
-              </p>
-            </motion.div>
-
-            {/* Documentation - placeholder */}
-            <motion.div
-              className="text-center space-y-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-6">
-                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-wedding-terracotta/60">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                    <circle cx="12" cy="13" r="4" />
-                 </svg>
-              </div>
-              <h3 className="text-xl font-cormorant text-wedding-charcoal">Documentation</h3>
-              <p className="text-wedding-charcoal/60 text-sm leading-relaxed">
-                 Capturing every beautiful moment of our special day.
-              </p>
-            </motion.div>
-
-            {/* Food & Drinks - placeholder */}
-            <motion.div
-              className="text-center space-y-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-6">
-                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-wedding-terracotta/60">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7l-4 4v7h14v-7l-4-4h-3V7a2 2 0 0 1 2-2h3V2z" />
-                 </svg>
-              </div>
-              <h3 className="text-xl font-cormorant text-wedding-charcoal">Food & Drinks</h3>
-              <p className="text-wedding-charcoal/60 text-sm leading-relaxed">
-                 A curated menu of fine dining and signature cocktails.
-              </p>
-            </motion.div>
-
-             {/* Accommodation - placeholder */}
-             <motion.div
-              className="text-center space-y-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-6">
-                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-wedding-terracotta/60">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
-                 </svg>
-              </div>
-              <h3 className="text-xl font-cormorant text-wedding-charcoal">Accommodation</h3>
-              <p className="text-wedding-charcoal/60 text-sm leading-relaxed">
-                 Special rates for our guests at the Sunset Beach Resort.
-              </p>
+              <Heart className="w-10 h-10 text-wedding-terracotta/60 mx-auto mb-2" />
+              <h3 className="text-lg font-cormorant text-wedding-charcoal">Reception</h3>
+              <p className="text-wedding-charcoal/60 text-xs">04:00 PM <br />Sun flower</p>
             </motion.div>
           </div>
         </div>
@@ -405,18 +333,18 @@ export default function Home() {
               Our Story
             </motion.h2>
             <motion.div
-              className="max-w-3xl mx-auto space-y-6 text-wedding-charcoal/70 leading-relaxed font-light"
+              className="max-w-2xl mx-auto space-y-4 text-wedding-charcoal/70 leading-relaxed font-light"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              <p className="italic">
-                "Our journey didn't begin with riches, but with a wealth of faith and a shared vision. When we first met eight years ago, Clapton was building his dreams from the ground up, with nothing but ambition in his heart. In those early years of struggle, Jackline saw what the rest of the world hadn't yet discovered. She believed in him when he had nothing, standing by his side and supporting every endeavor with unwavering devotion."
+              <p className="italic text-lg md:text-xl">
+                "Our journey began with nothing but faith. Jackline saw a vision in Clapton that the world hadn't noticed yet, standing by him through every early struggle."
               </p>
               
               <motion.div 
-                className="relative h-64 md:h-96 w-full max-w-2xl mx-auto my-12 overflow-hidden rounded-xl shadow-lg border-4 border-white"
+                className="relative h-64 md:h-80 w-full max-w-xl mx-auto my-10 overflow-hidden rounded-xl shadow-lg border-4 border-white"
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -429,9 +357,9 @@ export default function Home() {
                   className="object-cover"
                 />
               </motion.div>
-
+ 
               <p>
-                Together, we weathered every storm and celebrated every sunrise. We grew side-by-side, turning a simple promise into a beautiful reality of happiness and success. Today, after eight years of walking hand-in-hand, we are blessed with a home filled with the laughter of our three beautiful children—our daughter and two sons. We stand here today to celebrate our love with those who mean the most to us, a testimony to a love that grows stronger with every passing year.
+                Hand in hand, we turned a simple promise into a beautiful life. Today, blessed with three wonderful children, we celebrate a love that only grows stronger with time. Welcome to a story of devotion, growth, and the beautiful reality we've built together.
               </p>
             </motion.div>
           </div>
@@ -445,16 +373,13 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
+              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-md mx-auto md:ml-auto mb-6">
+                <Image src="/images/2H6A0220.jpg" alt="Mutoni Jackline" fill className="object-cover" />
+              </div>
               <h3 className="text-3xl font-cormorant text-wedding-charcoal">Mutoni Jackline (Mankazi)</h3>
               <p className="text-wedding-charcoal/70 leading-relaxed font-light">
                 Daughter of Pastor Frank NTAMBARA.
               </p>
-              <div className="flex justify-center md:justify-end gap-3 text-wedding-sage/40">
-                 {/* Social links placeholders - keeping subtle */}
-                 <span className="w-8 h-8 rounded-full border border-wedding-sage/10 flex items-center justify-center text-[10px] tracking-tighter">IG</span>
-                 <span className="w-8 h-8 rounded-full border border-wedding-sage/10 flex items-center justify-center text-[10px] tracking-tighter">FB</span>
-                 <span className="w-8 h-8 rounded-full border border-wedding-sage/10 flex items-center justify-center text-[10px] tracking-tighter">TW</span>
-              </div>
             </motion.div>
 
             {/* Middle: Image & Ampersand */}
@@ -484,16 +409,13 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
+              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-md mx-auto md:mr-auto mb-6">
+                <Image src="/images/2H6A9875.jpg" alt="Mugisha Emmanuel" fill className="object-cover" />
+              </div>
               <h3 className="text-3xl font-cormorant text-wedding-charcoal">Mugisha Emmanuel (Clapton)</h3>
               <p className="text-wedding-charcoal/70 leading-relaxed font-light">
                 Son of Pastor Augustin GAKERI.
               </p>
-              <div className="flex justify-center md:justify-start gap-4 text-wedding-sage/60">
-                 {/* Social links placeholders */}
-                 <span className="w-8 h-8 rounded-full border border-wedding-sage/20 flex items-center justify-center text-xs">f</span>
-                 <span className="w-8 h-8 rounded-full border border-wedding-sage/20 flex items-center justify-center text-xs">t</span>
-                 <span className="w-8 h-8 rounded-full border border-wedding-sage/20 flex items-center justify-center text-xs">i</span>
-              </div>
             </motion.div>
           </div>
         </div>
@@ -531,16 +453,16 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 md:px-0">
             {[
-              "/images/2H6A9733.jpg",
-              "/images/2H6A9749.jpg",
+          
+           
               "/images/2H6A9775.jpg",
-              "/images/2H6A9792.jpg",
+
               "/images/2H6A9798.jpg",
-              "/images/2H6A9832.jpg",
-              "/images/2H6A9834.jpg",
-              "/images/2H6A9875.jpg",
+              // "/images/2H6A9832.jpg",
+              // "/images/2H6A9834.jpg",
+              // "/images/2H6A9875.jpg",
               "/images/2H6A0205.jpg",
-              "/images/2H6A9885.jpg",
+
             ].map((src, index) => (
               <motion.div
                 key={index}
@@ -582,17 +504,12 @@ export default function Home() {
             <div className="mb-12 space-y-3 text-wedding-sage/80 font-cormorant text-lg md:text-xl px-4 md:px-0">
             <div className="mb-12 space-y-3 text-wedding-sage/80 font-cormorant text-lg md:text-xl px-4 md:px-0">
               <div className="flex flex-col md:flex-row justify-center gap-x-8 gap-y-2">
-                <p>Jackline: <a href="tel:0788256046" className="hover:text-wedding-gold transition-colors">0788256046</a></p>
-                <p>Emmanuel: <a href="tel:0788256046" className="hover:text-wedding-gold transition-colors">0788256046</a></p>
+                <p>Jacky: <a href="tel:0788256046" className="hover:text-wedding-gold transition-colors">0788256046</a></p>
               </div>
               <div className="flex flex-col md:flex-row justify-center gap-x-8 gap-y-2">
-                <p>Nshaija: <a href="tel:0788360985" className="hover:text-wedding-gold transition-colors">0788360985</a></p>
                 <p>Rodgers: <a href="tel:0783052085" className="hover:text-wedding-gold transition-colors">0783052085</a></p>
               </div>
-              <div className="flex flex-col md:flex-row justify-center gap-x-8 gap-y-2">
-                <p>Kansime: <a href="tel:0728592991" className="hover:text-wedding-gold transition-colors">0728592991</a></p>
-                <p>Reagan: <a href="tel:0785469975" className="hover:text-wedding-gold transition-colors">0785469975</a></p>
-              </div>
+             
             </div>
             </div>
             <Button
@@ -762,7 +679,7 @@ export default function Home() {
 
       <footer className="py-12 md:py-16 px-4 bg-wedding-cream text-wedding-charcoal/40 text-center text-[10px] md:text-xs tracking-[0.3em] uppercase border-t border-wedding-sage/10">
         <div className="max-w-6xl mx-auto">
-          <p>© {new Date().getFullYear()} Emmanuel & Jackline <span className="mx-2 md:mx-4">•</span> All Rights Reserved</p>
+          <p>© {new Date().getFullYear()} Clapton & Jacky <span className="mx-2 md:mx-4">•</span> All Rights Reserved</p>
           <p className="mt-4 tracking-[0.2em] font-medium text-wedding-gold/60">
             DEVELOPED & DESIGNED BY <span className="text-wedding-gold">Eloi BUGINGO</span> 0788420127
           </p>

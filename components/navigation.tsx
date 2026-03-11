@@ -51,7 +51,7 @@ export function Navigation() {
           "font-cormorant text-2xl tracking-widest italic transition-colors duration-500",
           !isScrolled && pathname === "/" ? "text-white" : "text-wedding-charcoal"
         )}>
-          <span className="text-wedding-gold">E</span> & <span className="text-wedding-gold">J</span>
+          <span className="text-wedding-gold">C</span> & <span className="text-wedding-gold">J</span>
         </Link>
  
         {/* Desktop Navigation */}
