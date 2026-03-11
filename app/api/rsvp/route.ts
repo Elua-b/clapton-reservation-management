@@ -17,12 +17,12 @@ export async function POST(request: Request) {
     const reservationData = {
       name: validatedData.name,
       email: validatedData.email,
-      phone: validatedData.phone || "",
-      address: validatedData.address || "",
+      phone: validatedData.phone || null,
+      address: validatedData.address || null,
       attending: validatedData.attending === "yes",
       guests: validatedData.guests,
-      message: validatedData.message || "",
-      invitationCode: validatedData.invitationCode,
+      message: validatedData.message || null,
+      invitationCode: validatedData.invitationCode || null,
     }
 
     // Add to database
