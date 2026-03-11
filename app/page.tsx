@@ -339,7 +339,7 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              <p className="italic text-lg md:text-xl">
+              <p className="">
                 Clapton and Jacky’s love story began in 2015. What started as a simple connection soon grew into a deep and beautiful love.
 
 In 2018, they sealed their commitment through a civil marriage, marking the beginning of a stronger journey together.
