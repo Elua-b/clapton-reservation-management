@@ -27,15 +27,16 @@ export async function importFromGoogleDocs(): Promise<Reservation[]> {
   // Return mock data
   return [
     {
-      id: "imported-1",
+      id: 99999,
       name: "Alex Thompson",
       email: "alex@example.com",
       phone: "555-555-5555",
       address: "987 Cedar Lane, Somewhere, CA 24680",
-      attending: "yes",
+      attending: true,
       guests: 2,
       message: "Looking forward to the wedding!",
-      submittedAt: new Date().toISOString(),
+      submittedAt: new Date(),
+      invitationCode: null,
     },
   ]
 }
@@ -50,12 +51,12 @@ export function formatReservationsForGoogleDocs(reservations: Reservation[]): st
     content += `Reservation #${index + 1}\n`
     content += `Name: ${reservation.name}\n`
     content += `Email: ${reservation.email}\n`
-    content += `Phone: ${reservation.phone}\n`
-    content += `Address: ${reservation.address}\n`
-    content += `Attending: ${reservation.attending === "yes" ? "Yes" : "No"}\n`
-    content += `Guests: ${reservation.attending === "yes" ? reservation.guests + 1 : 0}\n`
+    content += `Phone: ${reservation.phone || "N/A"}\n`
+    content += `Address: ${reservation.address || "N/A"}\n`
+    content += `Attending: ${reservation.attending ? "Yes" : "No"}\n`
+    content += `Guests: ${reservation.attending ? reservation.guests + 1 : 0}\n`
     content += `Message: ${reservation.message || "None"}\n`
-    content += `Submitted: ${new Date(reservation.submittedAt || "").toLocaleString()}\n\n`
+    content += `Submitted: ${reservation.submittedAt ? new Date(reservation.submittedAt).toLocaleString() : "N/A"}\n\n`
   })
 
   return content
