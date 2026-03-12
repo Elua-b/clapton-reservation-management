@@ -12,7 +12,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: "Jackline & Emmanuel | Wedding",
+  title: "Jacky & Clapton | Wedding",
   icons: {
     icon: "/images/2H6A9706.jpg",
     

@@ -14,24 +14,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import { Navigation } from "@/components/navigation"
-import { z } from "zod"
 import { ScrollToSection } from "@/components/scroll-to-section"
-import { rsvpFormSchema } from "@/lib/schema"
-
-type RsvpFormData = z.infer<typeof rsvpFormSchema>
 
 export default function Home() {
-  const { toast } = useToast()
-  const [formData, setFormData] = useState<Partial<RsvpFormData>>({
-    attending: "yes",
-    guests: 0,
-  })
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showForm, setShowForm] = useState(false)
-  const [showSuccess, setShowSuccess] = useState(false)
   const [scrollY, setScrollY] = useState(0)
-  const [invitationCode, setInvitationCode] = useState<string | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,111 +26,11 @@ export default function Home() {
 
     window.addEventListener("scroll", handleScroll)
 
-    // Check if there's an invitation code in session storage
-    const storedCode = sessionStorage.getItem("invitationCode")
-    if (storedCode) {
-      setInvitationCode(storedCode)
-    }
+    // Removal of invitation code check as it was for RSVP
 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-
-    if (name === "guests") {
-      setFormData({
-        ...formData,
-        [name]: Number.parseInt(value) || 0,
-      })
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      })
-    }
-
-    // Clear error when field is edited
-    if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: "",
-      })
-    }
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    console.log("Form data:", formData)
-
-    try {
-      // Add invitation code to form data if available
-      const formDataWithInvitation = invitationCode ? { ...formData, invitationCode } : formData
-
-      // Validate form data
-      const validatedData = rsvpFormSchema.parse(formDataWithInvitation)
-
-      // Send data to API
-      const response = await fetch("/api/rsvp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(validatedData),
-      })
-
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(result.error || "Failed to submit RSVP")
-      }
-
-      // Show success message
-      toast({
-        title: "RSVP Submitted!",
-        description: "Thank you for your response. We look forward to celebrating with you!",
-      })
-
-      // Reset form
-      setFormData({
-        attending: "yes",
-        guests: 0,
-      })
-      setShowForm(false)
-      setShowSuccess(true)
-
-      // Clear invitation code from session storage after successful submission
-      if (invitationCode) {
-        sessionStorage.removeItem("invitationCode")
-        setInvitationCode(null)
-      }
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        // Convert Zod errors to a more usable format
-        const fieldErrors: Record<string, string> = {}
-        error.errors.forEach((err) => {
-          if (err.path) {
-            fieldErrors[err.path[0]] = err.message
-          }
-        })
-        setErrors(fieldErrors)
-        toast({
-          title: "Form Incomplete",
-          description: "Please fill in all required fields highlighted in red.",
-          variant: "destructive",
-        })
-      } else {
-        toast({
-          title: "Error",
-          description: "Something went wrong. Please try again.",
-          variant: "destructive",
-        })
-      }
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
 
   return (
     <main className="flex min-h-screen flex-col bg-wedding-cream text-wedding-charcoal">
@@ -192,19 +78,6 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-12"
-          >
-            <Button
-              className="bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-white/20 px-8 py-6 text-xs tracking-[0.2em] uppercase transition-all duration-300 rounded-none"
-              onClick={() => setShowForm(true)}
-            >
-              RSVP Now
-            </Button>
-          </motion.div>
         </div>
 
         <motion.div
@@ -489,197 +362,7 @@ Since then, their love has continued to grow deeper and stronger, proving that t
         </div>
       </section>
 
-      {/* RSVP CTA */}
-      <section id="rsvp" className="py-32 px-4 md:px-8 bg-wedding-warmBeige/20 relative border-t border-wedding-terracotta/5">
-        <div className="max-w-3xl mx-auto relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-8">
-              <Heart className="w-8 h-8 text-wedding-sage/60" />
-            </div>
-            <h2 className="text-3xl md:text-5xl font-cormorant mb-8 text-wedding-charcoal italic px-4 md:px-0">Join Us On Our Special Day</h2>
-            <p className="text-base md:text-lg mb-6 text-wedding-charcoal/70 font-light leading-relaxed px-4 md:px-0">
-              We're excited to celebrate our love with you. Please let us know if you'll be able to join us by March 20th.
-            </p>
-            <div className="mb-12 space-y-3 text-wedding-sage/80 font-cormorant text-lg md:text-xl px-4 md:px-0">
-            <div className="mb-12 space-y-3 text-wedding-sage/80 font-cormorant text-lg md:text-xl px-4 md:px-0">
-              <div className="flex flex-col md:flex-row justify-center gap-x-8 gap-y-2">
-                <p>Jacky: <a href="tel:0788256046" className="hover:text-wedding-gold transition-colors">0788256046</a></p>
-              </div>
-              <div className="flex flex-col md:flex-row justify-center gap-x-8 gap-y-2">
-                <p>Rodgers: <a href="tel:0783052085" className="hover:text-wedding-gold transition-colors">0783052085</a></p>
-              </div>
-             
-            </div>
-            </div>
-            <Button
-              size="lg"
-              className="bg-wedding-sage text-white hover:bg-wedding-sage/90 px-12 py-7 text-sm tracking-[0.2em] uppercase transition-all duration-300 rounded-none shadow-lg"
-              onClick={() => setShowForm(true)}
-            >
-              RSVP Now
-            </Button>
 
-            {invitationCode && (
-              <div className="mt-8 text-xs tracking-widest text-wedding-sage/60 uppercase">
-                Reservation Code: {invitationCode.substring(0, 8)}
-              </div>
-            )}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* RSVP Form Modal */}
-      <AnimatePresence>
-        {showForm && (
-          <motion.div
-            className="fixed inset-0 bg-wedding-charcoal/40 backdrop-blur-md z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-wedding-cream p-6 md:p-12 max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-wedding-sage/10 shadow-2xl relative scrollbar-hide"
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", damping: 30, stiffness: 200 }}
-            >
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setShowForm(false)}
-                className="absolute top-6 right-6 text-wedding-charcoal/40 hover:text-wedding-charcoal hover:bg-transparent"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-              </Button>
-
-              <div className="text-center mb-8 md:mb-10 mt-4 md:mt-0">
-                <h2 className="text-2xl md:text-4xl font-cormorant text-wedding-charcoal italic mb-2">RSVP</h2>
-                <div className="w-12 h-px bg-wedding-sage/30 mx-auto"></div>
-              </div>
-
-              {invitationCode && (
-                <div className="mb-8 p-4 bg-wedding-sage/10 border border-wedding-sage/10 text-center">
-                  <p className="text-xs tracking-[0.2em] uppercase text-wedding-sage/70">
-                    Invitation Code: <span className="font-medium">{invitationCode.substring(0, 8)}</span>
-                  </p>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Full Name</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name || ""}
-                      onChange={handleChange}
-                      className={`bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none h-12 ${errors.name ? "border-red-400" : ""}`}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Email Address</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email || ""}
-                      onChange={handleChange}
-                      className={`bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none h-12 ${errors.email ? "border-red-400" : ""}`}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone || ""}
-                      onChange={handleChange}
-                      className={`bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none h-12 ${errors.phone ? "border-red-400" : ""}`}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="address" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Home Address</Label>
-                    <Input
-                      id="address"
-                      name="address"
-                      value={formData.address || ""}
-                      onChange={handleChange}
-                      className={`bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none h-12 ${errors.address ? "border-red-400" : ""}`}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   <div className="space-y-2">
-                    <Label htmlFor="attending" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Will you attend?</Label>
-                    <select
-                      id="attending"
-                      name="attending"
-                      value={formData.attending}
-                      onChange={handleChange}
-                      className="flex h-12 w-full bg-white/50 border border-wedding-sage/10 border-input px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-wedding-sage/20 rounded-none"
-                    >
-                      <option value="yes">Yes, I will attend</option>
-                      <option value="no">No, I cannot attend</option>
-                    </select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="guests" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Guest Count</Label>
-                    <Input
-                      id="guests"
-                      name="guests"
-                      type="number"
-                      min="0"
-                      max="5"
-                      value={formData.guests}
-                      onChange={handleChange}
-                      disabled={formData.attending === "no"}
-                      className="bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none h-12"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="message" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Message (Optional)</Label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message || ""}
-                    onChange={handleChange}
-                    rows={4}
-                    placeholder="Dietary requirements or well wishes..."
-                    className="bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none"
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full bg-wedding-charcoal text-white hover:bg-wedding-charcoal/90 h-14 text-sm tracking-[0.2em] uppercase rounded-none transition-all duration-300"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Confirm Attendance"}
-                </Button>
-              </form>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <footer className="py-12 md:py-16 px-4 bg-wedding-cream text-wedding-charcoal/40 text-center text-[10px] md:text-xs tracking-[0.3em] uppercase border-t border-wedding-sage/10">
         <div className="max-w-6xl mx-auto">
@@ -698,39 +381,6 @@ Since then, their love has continued to grow deeper and stronger, proving that t
         </div>
       </footer>
 
-      {/* Success Message Overlay */}
-      <AnimatePresence>
-        {showSuccess && (
-          <motion.div
-            className="fixed inset-0 bg-wedding-charcoal/60 backdrop-blur-md z-[60] flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-wedding-cream p-12 max-w-lg w-full text-center border border-wedding-gold/20 shadow-2xl relative"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-            >
-              <div className="w-20 h-20 rounded-full bg-wedding-sage/10 flex items-center justify-center mx-auto mb-8">
-                <Heart className="w-10 h-10 text-wedding-gold" />
-              </div>
-              <h2 className="text-3xl font-cormorant text-wedding-charcoal mb-4 italic">Thank You!</h2>
-              <p className="text-wedding-charcoal/70 mb-8 font-light leading-relaxed">
-                Your RSVP has been received with love. We are so grateful to have you join us on this beautiful journey.
-              </p>
-              <Button
-                variant="outline"
-                className="border-wedding-sage/30 text-wedding-sage hover:bg-wedding-sage/5 px-8 py-6 rounded-none tracking-widest uppercase text-xs"
-                onClick={() => setShowSuccess(false)}
-              >
-                Close
-              </Button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
  
       <Toaster />
     </main>
