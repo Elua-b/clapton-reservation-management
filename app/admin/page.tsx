@@ -117,10 +117,6 @@ export default function AdminLoginPage() {
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
-
-          <div className="mt-8 text-center text-wedding-charcoal/40 text-[10px] uppercase tracking-widest">
-            <p>For demo: admin / password</p>
-          </div>
         </div>
 
         <div className="mt-6 text-center">
