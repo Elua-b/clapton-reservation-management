@@ -36,6 +36,7 @@ export function Navigation() {
     { href: "#our-wedding", label: "Our Wedding" },
     { href: "#our-story", label: "Our Story" },
     { href: "#gallery", label: "Gallery" },
+    { href: "#wish", label: "Send Wish" },
   ]
 
   return (
