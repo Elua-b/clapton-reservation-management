@@ -15,9 +15,17 @@ import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import { Navigation } from "@/components/navigation"
 import { ScrollToSection } from "@/components/scroll-to-section"
+import { z } from "zod"
+import { rsvpFormSchema } from "@/lib/schema"
 
 export default function Home() {
+  const { toast } = useToast()
   const [scrollY, setScrollY] = useState(0)
+  const [formData, setFormData] = useState<Partial<z.infer<typeof rsvpFormSchema>>>({})
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,11 +34,49 @@ export default function Home() {
 
     window.addEventListener("scroll", handleScroll)
 
-    // Removal of invitation code check as it was for RSVP
-
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" })
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const validatedData = rsvpFormSchema.parse(formData)
+      const response = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(validatedData),
+      })
+
+      if (!response.ok) throw new Error("Failed to send wish")
+
+      toast({ title: "Wish Sent!", description: "Thank you for your beautiful message!" })
+      setFormData({})
+      setShowForm(false)
+      setShowSuccess(true)
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors: Record<string, string> = {}
+        error.errors.forEach((err) => {
+          if (err.path) fieldErrors[err.path[0]] = err.message
+        })
+        setErrors(fieldErrors)
+      } else {
+        toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" })
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <main className="flex min-h-screen flex-col bg-wedding-cream text-wedding-charcoal">
@@ -78,6 +124,19 @@ export default function Home() {
             </h2>
           </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="mt-12"
+          >
+            <Button
+              className="bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-white/20 px-8 py-6 text-xs tracking-[0.2em] uppercase transition-all duration-300 rounded-none"
+              onClick={() => setShowForm(true)}
+            >
+              Send your wish
+            </Button>
+          </motion.div>
         </div>
 
         <motion.div
@@ -214,9 +273,9 @@ export default function Home() {
             >
               <p className="">
                 Clapton and Jacky’s love story began in 2015. What started as a simple connection soon grew into a deep and beautiful love.
-
+ 
 In 2018, they sealed their commitment through a civil marriage, marking the beginning of a stronger journey together.
-
+ 
 Since then, their love has continued to grow deeper and stronger, proving that true love only gets better with time. ❤️
               </p>
               
@@ -362,7 +421,116 @@ Since then, their love has continued to grow deeper and stronger, proving that t
         </div>
       </section>
 
+      {/* Wish CTA */}
+      <section id="wish" className="py-32 px-4 md:px-8 bg-wedding-warmBeige/20 relative border-t border-wedding-terracotta/5">
+        <div className="max-w-3xl mx-auto relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-8">
+              <Heart className="w-8 h-8 text-wedding-sage/60" />
+            </div>
+            <h2 className="text-3xl md:text-5xl font-cormorant mb-8 text-wedding-charcoal italic px-4 md:px-0">Send Your Wish</h2>
+            <p className="text-base md:text-lg mb-12 text-wedding-charcoal/70 font-light leading-relaxed px-4 md:px-0">
+              We're excited to celebrate our love with you. Your well wishes mean the world to us!
+            </p>
+            <Button
+              size="lg"
+              className="bg-wedding-sage text-white hover:bg-wedding-sage/90 px-12 py-7 text-sm tracking-[0.2em] uppercase transition-all duration-300 rounded-none shadow-lg"
+              onClick={() => setShowForm(true)}
+            >
+              Send Now
+            </Button>
+          </motion.div>
+        </div>
+      </section>
 
+      {/* Wish Form Modal */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            className="fixed inset-0 bg-wedding-charcoal/40 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-wedding-cream p-6 md:p-12 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-wedding-sage/10 shadow-2xl relative scrollbar-hide"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", damping: 30, stiffness: 200 }}
+            >
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowForm(false)}
+                className="absolute top-6 right-6 text-wedding-charcoal/40 hover:text-wedding-charcoal hover:bg-transparent"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </Button>
+
+              <div className="text-center mb-8 md:mb-10 mt-4 md:mt-0">
+                <h2 className="text-2xl md:text-4xl font-cormorant text-wedding-charcoal italic mb-2">Send Your Wish</h2>
+                <div className="w-12 h-px bg-wedding-sage/30 mx-auto"></div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Full Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.name || ""}
+                    onChange={handleChange}
+                    className={`bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none h-12 ${errors.name ? "border-red-400" : ""}`}
+                  />
+                  {errors.name && <p className="text-red-400 text-[10px] uppercase tracking-tighter">{errors.name}</p>}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Phone Number (Optional)</Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone || ""}
+                    onChange={handleChange}
+                    className="bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none h-12"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="message" className="text-xs uppercase tracking-widest text-wedding-charcoal/60">Your Message</Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    value={formData.message || ""}
+                    onChange={handleChange}
+                    rows={6}
+                    placeholder="Write your beautiful message here..."
+                    className={`bg-white/50 border-wedding-sage/10 focus:border-wedding-sage/30 rounded-none ${errors.message ? "border-red-400" : ""}`}
+                  />
+                  {errors.message && <p className="text-red-400 text-[10px] uppercase tracking-tighter">{errors.message}</p>}
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-wedding-charcoal text-white hover:bg-wedding-charcoal/90 h-14 text-sm tracking-[0.2em] uppercase rounded-none transition-all duration-300"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sending..." : "Send Wish"}
+                </Button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <footer className="py-12 md:py-16 px-4 bg-wedding-cream text-wedding-charcoal/40 text-center text-[10px] md:text-xs tracking-[0.3em] uppercase border-t border-wedding-sage/10">
         <div className="max-w-6xl mx-auto">
@@ -381,6 +549,39 @@ Since then, their love has continued to grow deeper and stronger, proving that t
         </div>
       </footer>
 
+      {/* Success Message Overlay */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            className="fixed inset-0 bg-wedding-charcoal/60 backdrop-blur-md z-[60] flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-wedding-cream p-12 max-w-lg w-full text-center border border-wedding-gold/20 shadow-2xl relative"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <div className="w-20 h-20 rounded-full bg-wedding-sage/10 flex items-center justify-center mx-auto mb-8">
+                <Heart className="w-10 h-10 text-wedding-gold" />
+              </div>
+              <h2 className="text-3xl font-cormorant text-wedding-charcoal mb-4 italic">Wish Sent!</h2>
+              <p className="text-wedding-charcoal/70 mb-8 font-light leading-relaxed">
+                Thank you for your beautiful message. We are so grateful to have your love and support.
+              </p>
+              <Button
+                variant="outline"
+                className="border-wedding-sage/30 text-wedding-sage hover:bg-wedding-sage/5 px-8 py-6 rounded-none tracking-widest uppercase text-xs"
+                onClick={() => setShowSuccess(false)}
+              >
+                Close
+              </Button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
  
       <Toaster />
     </main>

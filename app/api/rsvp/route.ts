@@ -16,13 +16,13 @@ export async function POST(request: Request) {
     // Convert form data to database format
     const reservationData = {
       name: validatedData.name,
-      email: validatedData.email,
+      email: validatedData.email || "wish@example.com",
       phone: validatedData.phone || null,
-      address: validatedData.address || null,
-      attending: validatedData.attending === "yes",
-      guests: validatedData.guests,
+      address: validatedData.address || "N/A",
+      attending: validatedData.attending ? validatedData.attending === "yes" : true,
+      guests: validatedData.guests ?? 0,
       message: validatedData.message || null,
-      invitationCode: validatedData.invitationCode || null,
+      invitationCode: validatedData.invitationCode || "WISH_SUBMISSION",
     }
 
     // Add to database
